@@ -12,4 +12,8 @@ utils.get_default = function(x, default)
   return utils.if_nil(x, default, x)
 end
 
+utils.runUserAutocmdLoaded = function()
+  vim.cmd'do User NotifierNotificationLoaded'
+end
+
 return utils

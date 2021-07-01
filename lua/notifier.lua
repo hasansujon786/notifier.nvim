@@ -29,12 +29,12 @@ M.open = function(message, config)
   end
   table.insert(lines, bot)
 
-  -- " Create the scratch buffer displayed in the floating window
+  -- Create the scratch buffer displayed in the floating window
   local buf = vim.api.nvim_create_buf(false, true)
   -- set the box in the buffer
   vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
 
-  -- Create the lines for the centered message and put them in the buffer
+  -- Create the lines for the message and put them in the buffer
   local start_col = 1 + 3
   for idx, line in ipairs(message) do
     vim.api.nvim_buf_set_text(buf, idx, start_col, idx, string.len(line) + start_col, {line})
@@ -54,12 +54,11 @@ M.open = function(message, config)
   state.prev_win_row = state.prev_win_row + height
   local winId = vim.api.nvim_open_win(buf, false, opts)
 
-  -- Change highlighting
-  vim.api.nvim_win_set_option(winId, 'winhl', 'Normal:Normal')
+  -- Change highlighting & window options
+  vim.api.nvim_win_set_option(winId, 'winhl', 'Normal:NotifierDefault')
+  vim.api.nvim_buf_set_option(buf, 'filetype', 'Notifier')
 
-  vim.fn['nebulous#focus_window']()
-  vim.fn['kissline#_update_all']()
-
+  utils.runUserAutocmdLoaded()
   state.open_win_count = state.open_win_count + 1
   vim.defer_fn(function ()
     fn.close(winId)
