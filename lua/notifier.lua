@@ -14,6 +14,10 @@ M.open = function(message, config)
   local title = utils.get_default(config.title, nil)
   local visible_time = utils.get_default(config.visible_time, 3000)
   local width = title and string.len(config.title) + 8 or 40
+
+  -- Split the notification message based on window width
+  message = utils.wrap_text(message, width - 4)
+
   local height = vim.tbl_count(message) + 2
   local top = '╭' .. string.rep('─', width - 2) .. '╮'
   local mid = '│' .. string.rep(' ', width - 2) .. '│'
