@@ -1,3 +1,5 @@
+local utils = require('notifier.utils')
+
 local M = {}
 local fn = {}
 local state = {
@@ -6,26 +8,29 @@ local state = {
 }
 
 M.open = function(message, config)
+  if not config then
+    config = {}
+  end
+  local title = utils.get_default(config.title, '')
+  local visible_time = utils.get_default(config.visible_time, 3000)
   local width = 40
   local height = vim.tbl_count(message) + 2
-
-  -- " Create the scratch buffer displayed in the floating window
-  local buf = vim.api.nvim_create_buf(false, true)
-
   local top = '╭' .. string.rep('─', width - 2) .. '╮'
   local mid = '│' .. string.rep(' ', width - 2) .. '│'
   local bot = '╰' .. string.rep('─', width - 2) .. '╯'
+  if title ~= '' then
+    top = '╭' .. string.rep('─', width - (3 + string.len(config.title))) .. config.title .. '─╮'
+    -- bot = '╰' .. string.rep('─', width - (3 + string.len(config.title))) .. config.title .. '─╯'
+  end
 
-  -- if config.title then
-  --   print('title', config.title)
-  -- end
-  -- top = '╭' .. string.rep('─', width - (3 + string.len(title))) .. title .. '─╮'
-  -- bot = '╰' .. string.rep('─', width - (3 + string.len(title))) .. title .. '─╯'
   local lines = {top}
   for _ = 1, height - 2, 1 do
     table.insert(lines, mid)
   end
   table.insert(lines, bot)
+
+  -- " Create the scratch buffer displayed in the floating window
+  local buf = vim.api.nvim_create_buf(false, true)
   -- set the box in the buffer
   vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
 
@@ -58,7 +63,7 @@ M.open = function(message, config)
   state.open_win_count = state.open_win_count + 1
   vim.defer_fn(function ()
     fn.close(winId)
-  end, 3000)
+  end, visible_time)
 end
 
 fn.close = function(winId)
@@ -70,5 +75,6 @@ fn.close = function(winId)
 end
 
 -- lua require('notifier').open({'helo'})
+-- lua require('notifier').open({'helo'}, {title = 'test'})
 
 return M
