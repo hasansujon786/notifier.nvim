@@ -11,15 +11,15 @@ M.open = function(message, config)
   if not config then
     config = {}
   end
-  local title = utils.get_default(config.title, '')
+  local title = utils.get_default(config.title, nil)
   local visible_time = utils.get_default(config.visible_time, 3000)
-  local width = 40
+  local width = title and string.len(config.title) + 8 or 40
   local height = vim.tbl_count(message) + 2
   local top = '╭' .. string.rep('─', width - 2) .. '╮'
   local mid = '│' .. string.rep(' ', width - 2) .. '│'
   local bot = '╰' .. string.rep('─', width - 2) .. '╯'
-  if title ~= '' then
-    top = '╭' .. string.rep('─', width - (3 + string.len(config.title))) .. config.title .. '─╮'
+  if title then
+    top = '╭' .. string.rep('─', width - (8 + string.len(config.title))) .. '─ ' .. config.title .. ' ───╮'
     -- bot = '╰' .. string.rep('─', width - (3 + string.len(config.title))) .. config.title .. '─╯'
   end
 
