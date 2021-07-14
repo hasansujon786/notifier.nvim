@@ -127,5 +127,12 @@ end
 -- lua require('notifier').open({'helo'})
 -- lua require('notifier').open({'helo'}, {title = 'test'})
 -- lua require('notifier').alert({'helo'}, {title = 'test'})
+-- function! breakhabits#createmappings(keys, message) abort
+--     for key in a:keys
+--         call nvim_set_keymap('n', key, ':call BreakHabitsWindow(' . string(a:message). ')<CR>', {'silent': v:true, 'nowait': v:true, 'noremap': v:true})
+--     endfor
+-- endfunction
+-- https://www.statox.fr/posts/vim/breaking_habits_floating_window/
+-- TODO: improved only
 
 return M
