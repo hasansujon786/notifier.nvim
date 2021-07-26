@@ -11,7 +11,7 @@ M.open = function(message, config)
   if not config then
     config = {}
   end
-  local title = utils.get_default(config.title, '')
+  local title = utils.get_default(config.title, nil)
   local title_pos = utils.get_default(config.title_pos, 'right')
   local visible_time = utils.get_default(config.visible_time, 3000)
   local width = 40
@@ -125,7 +125,7 @@ fn.close = function(winId)
 end
 
 -- lua require('notifier').open({'helo'})
--- lua require('notifier').open({'helo'}, {title = 'test'})
+-- lua require('notifier').open({'helo'}, {title = 'test', title_pos = 'center'})
 -- lua require('notifier').alert({'helo'}, {title = 'test'})
 -- function! breakhabits#createmappings(keys, message) abort
 --     for key in a:keys

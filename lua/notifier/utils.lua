@@ -16,7 +16,7 @@ utils.get_border = function(title, width, title_pos)
   local top = '╭' .. string.rep('─', width - 2) .. '╮'
   local mid = '│' .. string.rep(' ', width - 2) .. '│'
   local bot = '╰' .. string.rep('─', width - 2) .. '╯'
-  if title ~= '' then
+  if title then
     if title_pos == 'center' or title_pos == '' then
       local even_space = string.len(title) % 2
       local pad = (width - string.len(title) - 1)/2
