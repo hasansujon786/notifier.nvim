@@ -45,13 +45,19 @@ M.open = function(message, config)
     row= (ui.height) - 3 - state.prev_win_row,
     anchor= 'SE',
     style= 'minimal',
- }
+    zindex = 300,
+  }
   state.prev_win_row = state.prev_win_row + height
-  local winId = vim.api.nvim_open_win(bufnr, false, opts)
 
-  -- Change highlighting & window options
-  vim.api.nvim_win_set_option(winId, 'winhl', 'Normal:NotifierDefault')
+  -- set buffer option
   vim.api.nvim_buf_set_option(bufnr, 'filetype', 'Notifier')
+  vim.api.nvim_buf_set_option(bufnr, 'readonly', true)
+  vim.api.nvim_buf_set_option(bufnr, 'modifiable', false)
+
+  local winId = vim.api.nvim_open_win(bufnr, false, opts)
+  -- set window option
+  vim.api.nvim_win_set_option(winId, 'winhl', 'Normal:NotifierDefault')
+  vim.api.nvim_win_set_option(winId, 'sidescrolloff', 0)
 
   utils.runUserAutocmdLoaded()
   state.open_win_count = state.open_win_count + 1
@@ -100,12 +106,18 @@ M.alert = function (message, config)
     row= (ui.height/2) - (height/2),
     anchor= 'NW',
     style= 'minimal',
- }
-  local winId = vim.api.nvim_open_win(bufnr, true, opts)
+    zindex = 300,
+  }
 
-  -- Change highlighting & window options
-  vim.api.nvim_win_set_option(winId, 'winhl', 'Normal:NotifierDefault')
+  -- set buffer options
   vim.api.nvim_buf_set_option(bufnr, 'filetype', 'Notifier')
+  vim.api.nvim_buf_set_option(bufnr, 'readonly', true)
+  vim.api.nvim_buf_set_option(bufnr, 'modifiable', false)
+
+  local winId = vim.api.nvim_open_win(bufnr, false, opts)
+  -- set windows options
+  vim.api.nvim_win_set_option(winId, 'winhl', 'Normal:NotifierDefault')
+  vim.api.nvim_win_set_option(winId, 'sidescrolloff', 0)
 
   -- Set mappings in the buffer to close the window easily
   local closingKeys = { '<Esc>', '<CR>', '<Leader>', 'q' }
