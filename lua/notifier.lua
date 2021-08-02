@@ -7,13 +7,13 @@ local state = {
   open_win_count = 0
 }
 
-M.open = function(message, config)
+M.notify = function(message, config)
   if not config then
     config = {}
   end
   local title = utils.get_default(config.title, nil)
   local title_pos = utils.get_default(config.title_pos, 'right')
-  local visible_time = utils.get_default(config.visible_time, 3000)
+  local visible_time = utils.get_default(config.close_after, 3000)
   local width = 40
   local height = vim.tbl_count(message) + 2
   local border = utils.get_border(title, width, title_pos)
@@ -136,8 +136,8 @@ fn.close = function(winId)
   end
 end
 
--- lua require('notifier').open({'helo'})
--- lua require('notifier').open({'helo'}, {title = 'test', title_pos = 'center'})
+-- lua require('notifier').notify({'helo'})
+-- lua require('notifier').notify({'helo'}, {title = 'test', title_pos = 'center'})
 -- lua require('notifier').alert({'helo'}, {title = 'test'})
 -- function! breakhabits#createmappings(keys, message) abort
 --     for key in a:keys
